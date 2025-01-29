@@ -18,6 +18,10 @@ function App() {
     }
   };
 
+  const deleteTodo = (id: number) => {
+    setTodos(todos.filter(todo => todo.id !== id));
+  };
+
   return (
     <div>
       <h1>Todo List</h1>
@@ -25,7 +29,10 @@ function App() {
       <button onClick={addTodo}>Add</button>
       <ul>
         {todos.map(todo => (
-          <li key={todo.id}>{todo.task}</li>
+          <li key={todo.id}>
+            {todo.task}
+            <button onClick={() => deleteTodo(todo.id)}>Delete</button>
+          </li>
         ))}
       </ul>
     </div>
