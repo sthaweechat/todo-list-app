@@ -4,6 +4,7 @@ import "./App.css";
 interface Todo {
   id: number;
   task: string;
+  completed: boolean;
 }
 
 function App() {
@@ -12,7 +13,7 @@ function App() {
 
   const addTodo = () => {
     if (task.trim()) {
-      const newTodo: Todo = { id: Date.now(), task };
+      const newTodo: Todo = { id: Date.now(), task, completed: false };
       setTodos([...todos, newTodo]);
       setTask("");
     }
@@ -20,6 +21,10 @@ function App() {
 
   const deleteTodo = (id: number) => {
     setTodos(todos.filter(todo => todo.id !== id));
+  };
+
+  const toggleComplete = (id: number) => {
+    setTodos(todos.map(todo => (todo.id === id ? { ...todo, completed: !todo.completed } : todo)));
   };
 
   return (
@@ -30,7 +35,8 @@ function App() {
       <ul>
         {todos.map(todo => (
           <li key={todo.id}>
-            {todo.task}
+            <input type="checkbox" checked={todo.completed} onChange={() => toggleComplete(todo.id)} />
+            <span style={{ textDecoration: todo.completed ? "line-through" : "none" }}>{todo.task}</span>
             <button onClick={() => deleteTodo(todo.id)}>Delete</button>
           </li>
         ))}
